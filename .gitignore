@@ -1,0 +1,5 @@
+# 项目排除路径
+/heima-leadnews-common/target/
+/heima-leadnews-feign-api/target/
+/heima-leadnews-model/target/
+/heima-leadnews-utils/target/
