@@ -1,5 +1,8 @@
 package com.heima.model.common.enums;
 
+import lombok.Getter;
+
+@Getter
 public enum AppHttpCodeEnum {
 
     // 成功段0
@@ -35,11 +38,4 @@ public enum AppHttpCodeEnum {
         this.errorMessage = errorMessage;
     }
 
-    public int getCode() {
-        return code;
-    }
-
-    public String getErrorMessage() {
-        return errorMessage;
-    }
 }

@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 @Getter
 @Setter
-public class PageResponseResult extends ResponseResult implements Serializable {
+public class PageResponseResult extends ResponseResult<Object> implements Serializable {
     private Integer currentPage;
     private Integer size;
     private Integer total;

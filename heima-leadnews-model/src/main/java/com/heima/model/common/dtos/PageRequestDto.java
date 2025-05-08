@@ -18,4 +18,5 @@ public class PageRequestDto {
             setSize(10);
         }
     }
+
 }
