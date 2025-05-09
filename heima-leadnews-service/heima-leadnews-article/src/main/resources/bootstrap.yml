@@ -1,8 +1,8 @@
 server:
-  port: 51801
+  port: 51802
 spring:
   application:
-    name: leadnews-user
+    name: leadnews-article
   cloud:
     nacos:
       server-addr: 192.168.190.128:8848
@@ -10,4 +10,4 @@ spring:
         file-extension: yaml
   config:
     import:
-      - nacos:leadnews-user.yaml
+      - nacos:leadnews-article.yaml

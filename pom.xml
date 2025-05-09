@@ -15,14 +15,13 @@
         <module>heima-leadnews-feign-api</module>
         <module>heima-leadnews-service</module>
         <module>heima-leadnews-gateway</module>
-        <module>heima-leadnews-test</module>
     </modules>
 
     <!-- 继承Spring boot工程 -->
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.12</version>
+        <version>3.1.5</version>
     </parent>
     <properties>
         <!-- 项目源码及编译输出的编码 -->
