@@ -1,0 +1,13 @@
+server:
+  port: 51803
+spring:
+  application:
+    name: leadnews-wemedia
+  cloud:
+    nacos:
+      server-addr: 192.168.190.128:8848
+      config:
+        file-extension: yaml
+  config:
+    import:
+      - nacos:leadnews-wemedia.yaml
