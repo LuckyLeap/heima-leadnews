@@ -2,13 +2,11 @@ package com.heima.wemedia.controller.v1;
 
 import com.heima.model.common.dtos.ResponseResult;
 import com.heima.model.wemedia.dtos.WmNewsDto;
+import com.heima.model.wemedia.dtos.WmNewsEnableDto;
 import com.heima.model.wemedia.dtos.WmNewsPageReqDto;
 import com.heima.wemedia.service.WmNewsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/news")
@@ -28,5 +26,15 @@ public class WmNewsController {
     @PostMapping("/submit")
     public ResponseResult<Object> submitNews(@RequestBody WmNewsDto dto){
         return  wmNewsService.submitNews(dto);
+    }
+
+    @GetMapping("del_news/{id}")
+    public ResponseResult<Object> delById(@PathVariable("id") Integer id){
+        return  wmNewsService.delById(id);
+    }
+
+    @PostMapping("/down_or_up")
+    public ResponseResult<Object> downOrUp(@RequestBody WmNewsEnableDto dto){
+        return  wmNewsService.downOrUp(dto);
     }
 }

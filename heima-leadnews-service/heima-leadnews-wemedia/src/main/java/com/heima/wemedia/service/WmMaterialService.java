@@ -19,4 +19,22 @@ public interface WmMaterialService extends IService<WmMaterial> {
      * @param dto 查询参数
      */
     ResponseResult<Object> findList( WmMaterialDto dto);
+
+    /**
+     * 素材删除
+     * @param id 素材id
+     */
+    ResponseResult<Object> delById(Integer id);
+
+    /**
+     * 素材收藏
+     * @param id 素材id
+     */
+    ResponseResult<Object> collect(Integer id);
+
+    /**
+     * 取消素材收藏
+     * @param id 素材id
+     */
+    ResponseResult<Object> cancelCollect(Integer id);
 }

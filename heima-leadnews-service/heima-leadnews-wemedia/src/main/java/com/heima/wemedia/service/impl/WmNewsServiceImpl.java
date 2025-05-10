@@ -1,5 +1,6 @@
 package com.heima.wemedia.service.impl;
 
+import com.heima.model.wemedia.dtos.WmNewsEnableDto;
 import org.apache.commons.lang3.StringUtils;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -146,6 +147,61 @@ public class WmNewsServiceImpl  extends ServiceImpl<WmNewsMapper, WmNews> implem
 
         return ResponseResult.okResult(AppHttpCodeEnum.SUCCESS);
 
+    }
+
+    /**
+     *  删除文章
+     * @param id 文章id
+     */
+    @Override
+    public ResponseResult<Object> delById(Integer id) {
+        //1.检查参数
+        if(id == null){
+            return ResponseResult.errorResult(AppHttpCodeEnum.PARAM_INVALID);
+        }
+
+        //2.查询数据
+        WmNews wmNews = getById(id);
+        if(wmNews == null){
+            return ResponseResult.errorResult(AppHttpCodeEnum.DATA_NOT_EXIST,"文章不存在");
+        }
+
+        //3.删除文章
+        boolean isRemoved = removeById(id);
+        if(!isRemoved){
+            return ResponseResult.errorResult(AppHttpCodeEnum.SERVER_ERROR);
+        }
+        //4.删除文章图片与素材的关系
+        wmNewsMaterialMapper.delete(Wrappers.<WmNewsMaterial>lambdaQuery().eq(WmNewsMaterial::getNewsId,id));
+
+        //5.返回结果
+        return ResponseResult.okResult(AppHttpCodeEnum.SUCCESS);
+    }
+
+    /**
+     *  上下架文章
+     * @param dto 状态信息
+     */
+    @Override
+    public ResponseResult<Object> downOrUp(WmNewsEnableDto dto) {
+        //1.检查参数
+        if(dto == null || dto.getEnable() == null){
+            return ResponseResult.errorResult(AppHttpCodeEnum.PARAM_INVALID);
+        }
+
+        //2.检查文章是否存在
+        WmNews wmNews = getById(dto.getId());
+        if(wmNews == null){
+            return ResponseResult.errorResult(AppHttpCodeEnum.DATA_NOT_EXIST,"文章不存在");
+        }
+
+        //3.修改文章状态
+        wmNews.setStatus(dto.getEnable());
+        boolean isUpdated = updateById(wmNews);
+        if(!isUpdated){
+            return ResponseResult.errorResult(AppHttpCodeEnum.SERVER_ERROR,"修改失败");
+        }
+        return ResponseResult.okResult(AppHttpCodeEnum.SUCCESS);
     }
 
     /**
