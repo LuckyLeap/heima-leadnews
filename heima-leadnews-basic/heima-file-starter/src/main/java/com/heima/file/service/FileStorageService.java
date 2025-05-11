@@ -3,7 +3,7 @@ package com.heima.file.service;
 import java.io.InputStream;
 
 /**
- * @author itheima
+ * 文件存储服务
  */
 public interface FileStorageService {
 

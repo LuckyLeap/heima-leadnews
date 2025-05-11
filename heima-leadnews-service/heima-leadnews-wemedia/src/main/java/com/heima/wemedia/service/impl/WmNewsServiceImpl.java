@@ -1,6 +1,7 @@
 package com.heima.wemedia.service.impl;
 
 import com.heima.model.wemedia.dtos.WmNewsEnableDto;
+import com.heima.wemedia.service.WmNewsAutoScanService;
 import org.apache.commons.lang3.StringUtils;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -66,6 +67,16 @@ public class WmNewsServiceImpl  extends ServiceImpl<WmNewsMapper, WmNews> implem
             return ResponseResult.errorResult(AppHttpCodeEnum.NEED_LOGIN);
         }
 
+        // 线程睡眠1秒
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            // 使用日志记录中断异常（假设使用 java.util.logging）
+            java.util.logging.Logger.getLogger("MyLogger").warning("线程睡眠被中断");
+            // 恢复中断状态
+            Thread.currentThread().interrupt();
+        }
+
         //2.分页条件查询
         IPage<WmNews> page = new Page<>(dto.getPage(),dto.getSize());
         LambdaQueryWrapper<WmNews> lambdaQueryWrapper = new LambdaQueryWrapper<>();
@@ -103,6 +114,9 @@ public class WmNewsServiceImpl  extends ServiceImpl<WmNewsMapper, WmNews> implem
 
         return responseResult;
     }
+
+    @Autowired
+    private WmNewsAutoScanService wmNewsAutoScanService;
 
     /**
      * 发布修改文章或保存为草稿
@@ -144,6 +158,9 @@ public class WmNewsServiceImpl  extends ServiceImpl<WmNewsMapper, WmNews> implem
 
         //4.不是草稿，保存文章封面图片与素材的关系，如果当前布局是自动，需要匹配封面图片
         saveRelativeInfoForCover(dto,wmNews,materials);
+
+        //5.审核文章
+        wmNewsAutoScanService.autoScanWmNews(wmNews.getId());
 
         return ResponseResult.okResult(AppHttpCodeEnum.SUCCESS);
 

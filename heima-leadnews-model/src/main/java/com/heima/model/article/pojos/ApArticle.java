@@ -16,7 +16,7 @@ import java.util.Date;
 @TableName("ap_article")
 public class ApArticle implements Serializable {
 
-    @TableId(value = "id",type = IdType.AUTO)
+    @TableId(value = "id",type = IdType.ASSIGN_ID)
     private Long id;
 
     /**
@@ -59,7 +59,7 @@ public class ApArticle implements Serializable {
     private Byte flag;
 
     /**
-     * 文章封面图片 多张逗号分隔
+     * 文章封面图片 [多张间用逗号分隔]
      */
     private String images;
 

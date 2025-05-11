@@ -51,8 +51,6 @@
         <curator.version>5.4.0</curator.version>
         <hanlp.version>portable-1.8.6</hanlp.version>
         <fastdfs.version>1.27.2</fastdfs.version>
-        <ali.core.version>4.5.3</ali.core.version>
-        <ali.green.version>3.0.0</ali.green.version>
         <junit.version>3.8.1</junit.version>
         <kafka.version>2.8.0</kafka.version>
         <kafka.client.version>2.8.0</kafka.client.version>
@@ -223,16 +221,6 @@
                 <groupId>com.github.tobato</groupId>
                 <artifactId>fastdfs-client</artifactId>
                 <version>${fastdfs.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.aliyun</groupId>
-                <artifactId>aliyun-java-sdk-core</artifactId>
-                <version>${ali.core.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.aliyun</groupId>
-                <artifactId>aliyun-java-sdk-green</artifactId>
-                <version>${ali.green.version}</version>
             </dependency>
             <!-- junit -->
             <dependency>

@@ -11,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Import;
-import org.springframework.util.StringUtils;
+import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -22,12 +22,13 @@ import java.util.Date;
 @Slf4j
 @EnableConfigurationProperties(MinIOConfigProperties.class)
 @Import(MinIOConfig.class)
-public class MinIOFileStorageService implements FileStorageService {
+@Service
+public class MinIOFileStorageServiceImpl implements FileStorageService {
 
     private final MinioClient minioClient;
     private final MinIOConfigProperties minIOConfigProperties;
     @Autowired
-    public MinIOFileStorageService(MinioClient minioClient, MinIOConfigProperties minIOConfigProperties) {
+    public MinIOFileStorageServiceImpl(MinioClient minioClient, MinIOConfigProperties minIOConfigProperties) {
         this.minioClient = minioClient;
         this.minIOConfigProperties = minIOConfigProperties;
     }
@@ -40,7 +41,7 @@ public class MinIOFileStorageService implements FileStorageService {
      */
     public String builderFilePath(String dirPath,String filename) {
         StringBuilder stringBuilder = new StringBuilder(50);
-        if(!StringUtils.isEmpty(dirPath)){
+        if (dirPath != null && !dirPath.isEmpty()) {
             stringBuilder.append(dirPath).append(separator);
         }
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");

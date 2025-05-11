@@ -1,112 +1,183 @@
 package com.heima.utils.common;
 
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * 敏感词过滤工具类（线程安全）
+ * 1. 使用Trie树结构存储敏感词
+ * 2. 支持多线程安全初始化与匹配
+ * 3. 内置AC自动机匹配算法优化性能
+ */
 public class SensitiveWordUtil {
+    private static final Logger logger = LoggerFactory.getLogger(SensitiveWordUtil.class);
+    private static volatile TrieNode root = new TrieNode();
+    private static final Object initLock = new Object();
+    private static boolean isInitialized = false;
 
-    public static Map<String, Object> dictionaryMap = new HashMap<>();
+    // Trie节点定义
+    private static class TrieNode {
+        Map<Character, TrieNode> children = new ConcurrentHashMap<>();
+        boolean isEnd = false;
+        TrieNode failNode; // AC自动机失败指针
+    }
 
     /**
-     * 生成关键词字典库
+     * 初始化敏感词库（线程安全）
+     * @param words 敏感词集合
      */
     public static void initMap(Collection<String> words) {
-        if (words == null) {
-            System.out.println("敏感词列表不能为空");
-            return ;
+        if (words == null || words.isEmpty()) {
+            logger.warn("敏感词集合为空，已清空现有词库");
+            synchronized (initLock) {
+                root = new TrieNode();
+                isInitialized = false;
+            }
+            return;
         }
 
-        // map初始长度words.size()，整个字典库的入口字数(小于words.size()，因为不同的词可能会有相同的首字)
-        Map<String, Object> map = new HashMap<>(words.size());
-        // 遍历过程中当前层次的数据
-        Map<String, Object> curMap = null;
+        synchronized (initLock) {
+            try {
+                TrieNode newRoot = buildTrie(words);
+                buildFailureLinks(newRoot); // 构建AC自动机失败指针
+                root = newRoot;
+                isInitialized = true;
+                logger.info("敏感词库初始化完成，词条数量：{}", words.size());
+            } catch (Exception e) {
+                logger.error("敏感词库初始化失败", e);
+                throw new RuntimeException("敏感词库初始化失败", e);
+            }
+        }
+    }
 
+    // 构建Trie树
+    private static TrieNode buildTrie(Collection<String> words) {
+        TrieNode root = new TrieNode();
         for (String word : words) {
-            curMap = map;
-            int len = word.length();
-            for (int i = 0; i < len; i++) {
-                // 遍历每个词的字
-                String key = String.valueOf(word.charAt(i));
-                // 当前字在当前层是否存在, 不存在则新建, 当前层数据指向下一个节点, 继续判断是否存在数据
-                Map<String, Object> wordMap = (Map<String, Object>) curMap.get(key);
-                if (wordMap == null) {
-                    // 每个节点存在两个数据: 下一个节点和isEnd(是否结束标志)
-                    wordMap = new HashMap<>(2);
-                    wordMap.put("isEnd", "0");
-                    curMap.put(key, wordMap);
+            if (word == null || word.trim().isEmpty()) continue;
+
+            TrieNode current = root;
+            for (char c : word.toCharArray()) {
+                current.children.computeIfAbsent(c, k -> new TrieNode());
+                current = current.children.get(c);
+            }
+            current.isEnd = true;
+        }
+        return root;
+    }
+
+    // 构建AC自动机失败指针
+    private static void buildFailureLinks(TrieNode root) {
+        Queue<TrieNode> queue = new LinkedList<>();
+        root.failNode = null;
+        queue.offer(root);
+
+        while (!queue.isEmpty()) {
+            TrieNode current = queue.poll();
+
+            for (Map.Entry<Character, TrieNode> entry : current.children.entrySet()) {
+                char c = entry.getKey();
+                TrieNode child = entry.getValue();
+
+                if (current == root) {
+                    child.failNode = root;
+                } else {
+                    TrieNode failNode = current.failNode;
+                    while (failNode != null) {
+                        if (failNode.children.containsKey(c)) {
+                            child.failNode = failNode.children.get(c);
+                            break;
+                        }
+                        failNode = failNode.failNode;
+                    }
+                    if (failNode == null) {
+                        child.failNode = root;
+                    }
                 }
-                curMap = wordMap;
-                // 如果当前字是词的最后一个字，则将isEnd标志置1
-                if (i == len - 1) {
-                    curMap.put("isEnd", "1");
-                }
+                queue.offer(child);
             }
         }
-
-        dictionaryMap = map;
     }
 
     /**
-     * 搜索文本中某个文字是否匹配关键词
-     */
-    private static int checkWord(String text, int beginIndex) {
-        if (dictionaryMap == null) {
-            throw new RuntimeException("字典不能为空");
-        }
-        boolean isEnd = false;
-        int wordLength = 0;
-        Map<String, Object> curMap = dictionaryMap;
-        int len = text.length();
-        // 从文本的第beginIndex开始匹配
-        for (int i = beginIndex; i < len; i++) {
-            String key = String.valueOf(text.charAt(i));
-            // 获取当前key的下一个节点
-            curMap = (Map<String, Object>) curMap.get(key);
-            if (curMap == null) {
-                break;
-            } else {
-                wordLength ++;
-                if ("1".equals(curMap.get("isEnd"))) {
-                    isEnd = true;
-                }
-            }
-        }
-        if (!isEnd) {
-            wordLength = 0;
-        }
-        return wordLength;
-    }
-
-    /**
-     * 获取匹配的关键词和命中次数
+     * 检查文本中是否包含敏感词
+     * @param text 待检查文本
+     * @return 匹配到的敏感词及出现次数
      */
     public static Map<String, Integer> matchWords(String text) {
-        Map<String, Integer> wordMap = new HashMap<>();
-        int len = text.length();
-        for (int i = 0; i < len; i++) {
-            int wordLength = checkWord(text, i);
-            if (wordLength > 0) {
-                String word = text.substring(i, i + wordLength);
-                // 添加关键词匹配次数
-                if (wordMap.containsKey(word)) {
-                    wordMap.put(word, wordMap.get(word) + 1);
-                } else {
-                    wordMap.put(word, 1);
+        if (!isInitialized) {
+            logger.warn("敏感词库未初始化，跳过检查");
+            return Collections.emptyMap();
+        }
+        if (text == null || text.isEmpty()) {
+            return Collections.emptyMap();
+        }
+
+        Map<String, Integer> result = new HashMap<>();
+        TrieNode current = root;
+        char[] chars = text.toCharArray();
+
+        for (int i = 0; i < chars.length; i++) {
+            char c = chars[i];
+
+            // AC自动机跳转逻辑
+            while (!current.children.containsKey(c) && current != root) {
+                current = current.failNode;
+            }
+
+            current = current.children.getOrDefault(c, root);
+            TrieNode temp = current;
+
+            // 检查当前路径是否构成敏感词
+            while (temp != root) {
+                if (temp.isEnd) {
+                    int wordLength = getWordLength(temp, chars, i);
+                    String word = new String(chars, i - wordLength + 1, wordLength);
+                    result.put(word, result.getOrDefault(word, 0) + 1);
+                    i = i - wordLength + 1; // 跳过已匹配部分
+                    break;
                 }
-                i += wordLength - 1;
+                temp = temp.failNode;
             }
         }
-        return wordMap;
+        return result;
     }
 
-    public static void main(String[] args) {
-        List<String> list = new ArrayList<>();
-        list.add("法轮");
-        list.add("法轮功");
-        list.add("冰毒");
-        initMap(list);
-        String content="我是一个好人，并不会卖冰毒，也不操练法轮功,我真的不卖冰毒";
-        Map<String, Integer> map = matchWords(content);
-        System.out.println(map);
+    // 获取敏感词长度（回溯到词起点）
+    private static int getWordLength(TrieNode node, char[] chars, int endIndex) {
+        int length = 0;
+        while (node != root) {
+            length++;
+            node = node.failNode;
+        }
+        return length;
+    }
+
+    /**
+     * 快速检查是否包含敏感词（性能优化）
+     * @param text 待检查文本
+     * @return 是否包含敏感词
+     */
+    public static boolean containsSensitiveWord(String text) {
+        if (!isInitialized || text == null || text.isEmpty()) {
+            return false;
+        }
+
+        TrieNode current = root;
+        char[] chars = text.toCharArray();
+
+        for (char c : chars) {
+            while (!current.children.containsKey(c) && current != root) {
+                current = current.failNode;
+            }
+
+            current = current.children.getOrDefault(c, root);
+            if (current.isEnd) {
+                return true;
+            }
+        }
+        return false;
     }
 }

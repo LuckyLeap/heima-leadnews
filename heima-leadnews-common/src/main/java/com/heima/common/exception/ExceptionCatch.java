@@ -17,7 +17,7 @@ public class ExceptionCatch {
      */
     @ExceptionHandler(Exception.class)
     @ResponseBody
-    public ResponseResult exception(Exception e) {
+    public ResponseResult<Object> exception(Exception e) {
         String exceptionType = e.getClass().getSimpleName();
         log.error("[{}] 异常信息：{}", exceptionType, e.getMessage());
         log.debug("异常堆栈跟踪：", e); // debug级别记录详细堆栈
@@ -29,7 +29,7 @@ public class ExceptionCatch {
      */
     @ExceptionHandler(CustomException.class)
     @ResponseBody
-    public ResponseResult exception(CustomException e) {
+    public ResponseResult<Object> exception(CustomException e) {
         log.error("错误码：{}, 异常信息：{}",
                 e.getAppHttpCodeEnum().getCode(), e.getMessage());
         return ResponseResult.errorResult(e.getAppHttpCodeEnum());
