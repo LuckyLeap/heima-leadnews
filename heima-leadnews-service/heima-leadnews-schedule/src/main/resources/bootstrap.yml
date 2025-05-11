@@ -1,0 +1,13 @@
+server:
+  port: 51701
+spring:
+  application:
+    name: leadnews-schedule
+  cloud:
+    nacos:
+      server-addr: 192.168.190.128:8848
+      config:
+        file-extension: yaml
+  config:
+    import:
+      - nacos:leadnews-schedule.yaml
