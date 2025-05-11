@@ -1,10 +1,11 @@
 package com.heima.wemedia.service.impl;
 
-import com.heima.model.wemedia.dtos.WmNewsEnableDto;
+import com.heima.model.common.constants.WmNewsMessageConstants;
 import com.heima.wemedia.service.WmNewsAutoScanService;
 import com.heima.wemedia.service.WmNewsTaskService;
 import org.apache.commons.lang3.StringUtils;
 import com.alibaba.fastjson.JSON;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -32,10 +33,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -197,28 +195,43 @@ public class WmNewsServiceImpl  extends ServiceImpl<WmNewsMapper, WmNews> implem
         return ResponseResult.okResult(AppHttpCodeEnum.SUCCESS);
     }
 
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
+
     /**
-     *  上下架文章
-     * @param dto 状态信息
+     * 文章的上下架
+     * @param dto 请求参数
      */
     @Override
-    public ResponseResult<Object> downOrUp(WmNewsEnableDto dto) {
+    public ResponseResult<Object> downOrUp(WmNewsDto dto) {
         //1.检查参数
-        if(dto == null || dto.getEnable() == null){
+        if(dto.getId() == null){
             return ResponseResult.errorResult(AppHttpCodeEnum.PARAM_INVALID);
         }
 
-        //2.检查文章是否存在
+        //2.查询文章
         WmNews wmNews = getById(dto.getId());
         if(wmNews == null){
             return ResponseResult.errorResult(AppHttpCodeEnum.DATA_NOT_EXIST,"文章不存在");
         }
 
-        //3.修改文章状态
-        wmNews.setStatus(dto.getEnable());
-        boolean isUpdated = updateById(wmNews);
-        if(!isUpdated){
-            return ResponseResult.errorResult(AppHttpCodeEnum.SERVER_ERROR,"修改失败");
+        //3.判断文章是否已发布
+        if(!wmNews.getStatus().equals(WmNews.Status.PUBLISHED.getCode())){
+            return ResponseResult.errorResult(AppHttpCodeEnum.PARAM_INVALID,"当前文章不是发布状态，不能上下架");
+        }
+
+        //4.修改文章enable
+        if(dto.getEnable() != null && dto.getEnable() > -1 && dto.getEnable() < 2){
+            update(Wrappers.<WmNews>lambdaUpdate().set(WmNews::getEnable,dto.getEnable())
+                    .eq(WmNews::getId,wmNews.getId()));
+
+            //发送消息，通知article端修改文章配置
+            if(wmNews.getArticleId() != null){
+                Map<String,Object> map = new HashMap<>();
+                map.put("articleId",wmNews.getArticleId());
+                map.put("enable",dto.getEnable());
+                rabbitTemplate.convertAndSend(WmNewsMessageConstants.WM_NEWS_UP_OR_DOWN_QUEUE, JSON.toJSONString(map));
+            }
         }
         return ResponseResult.okResult(AppHttpCodeEnum.SUCCESS);
     }
@@ -338,6 +351,5 @@ public class WmNewsServiceImpl  extends ServiceImpl<WmNewsMapper, WmNews> implem
             wmNewsMaterialMapper.delete(Wrappers.<WmNewsMaterial>lambdaQuery().eq(WmNewsMaterial::getNewsId,wmNews.getId()));
             updateById(wmNews);
         }
-
     }
 }

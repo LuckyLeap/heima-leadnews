@@ -2,7 +2,6 @@ package com.heima.wemedia.controller.v1;
 
 import com.heima.model.common.dtos.ResponseResult;
 import com.heima.model.wemedia.dtos.WmNewsDto;
-import com.heima.model.wemedia.dtos.WmNewsEnableDto;
 import com.heima.model.wemedia.dtos.WmNewsPageReqDto;
 import com.heima.wemedia.service.WmNewsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +33,7 @@ public class WmNewsController {
     }
 
     @PostMapping("/down_or_up")
-    public ResponseResult<Object> downOrUp(@RequestBody WmNewsEnableDto dto){
+    public ResponseResult<Object> downOrUp(@RequestBody WmNewsDto dto){
         return  wmNewsService.downOrUp(dto);
     }
 }

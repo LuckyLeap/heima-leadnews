@@ -52,8 +52,6 @@
         <hanlp.version>portable-1.8.6</hanlp.version>
         <fastdfs.version>1.27.2</fastdfs.version>
         <junit.version>3.8.1</junit.version>
-        <kafka.version>2.8.0</kafka.version>
-        <kafka.client.version>2.8.0</kafka.client.version>
         <reflections.version>0.9.11</reflections.version>
         <swagger.version>2.3.0</swagger.version>
         <knife4j.version>3.0.3</knife4j.version>
@@ -228,29 +226,7 @@
                 <artifactId>junit</artifactId>
                 <version>${junit.version}</version>
             </dependency>
-            <!-- kafka -->
-            <dependency>
-                <groupId>org.springframework.kafka</groupId>
-                <artifactId>spring-kafka</artifactId>
-                <version>${kafka.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.kafka</groupId>
-                <artifactId>kafka-streams</artifactId>
-                <version>${kafka.client.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <artifactId>connect-json</artifactId>
-                        <groupId>org.apache.kafka</groupId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-
-            <dependency>
-                <groupId>org.apache.kafka</groupId>
-                <artifactId>kafka-clients</artifactId>
-                <version>${kafka.client.version}</version>
-            </dependency>
+            <!-- knife4j -->
             <dependency>
                 <groupId>com.github.xiaoymin</groupId>
                 <artifactId>knife4j-spring-boot-starter</artifactId>
@@ -262,6 +238,7 @@
                 <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
                 <version>${swagger.version}</version>
             </dependency>
+            <!-- mybatis-plus -->
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-boot-starter</artifactId>
