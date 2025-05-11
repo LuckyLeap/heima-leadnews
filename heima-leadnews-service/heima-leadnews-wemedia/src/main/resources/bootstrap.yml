@@ -1,16 +1,5 @@
 server:
   port: 51803
-#TODO
-feign:
-  # 开启feign对hystrix熔断降级的支持
-  hystrix:
-    enabled: true
-  # 修改调用超时时间
-  client:
-    config:
-      default:
-        connectTimeout: 2000
-        readTimeout: 2000
 spring:
   application:
     name: leadnews-wemedia
