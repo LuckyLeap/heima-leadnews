@@ -11,11 +11,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * <p>
  * 自媒体用户信息表
- * </p>
- *
- * @author itheima
  */
 @Data
 @TableName("wm_user")

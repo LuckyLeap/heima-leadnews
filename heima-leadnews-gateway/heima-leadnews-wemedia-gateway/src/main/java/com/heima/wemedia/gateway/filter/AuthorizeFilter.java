@@ -51,14 +51,12 @@ public class AuthorizeFilter implements Ordered, GlobalFilter {
             //获得token解析后中的用户信息
             Object userId = claimsBody.get("id");
             //在header中添加新的信息
-            ServerHttpRequest serverHttpRequest = request.mutate().headers(httpHeaders -> {
-                httpHeaders.add("userId", userId + "");
-            }).build();
+            ServerHttpRequest serverHttpRequest = request.mutate().headers(httpHeaders -> httpHeaders.add("userId", userId + "")).build();
             //重置header
             exchange.mutate().request(serverHttpRequest).build();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("token解析失败");
         }
 
         //6.放行

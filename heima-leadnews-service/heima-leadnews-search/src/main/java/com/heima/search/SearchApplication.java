@@ -1,15 +1,17 @@
-package com.heima.wemedia.gateway;
+package com.heima.search;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.scheduling.annotation.EnableAsync;
 
+@EnableAsync // 开启异步注解功能
 @SpringBootApplication
 @EnableDiscoveryClient
-public class WemediaGatewayAplication {
+public class SearchApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(WemediaGatewayAplication.class,args);
+        SpringApplication.run(SearchApplication.class,args);
     }
 
 }

@@ -19,8 +19,11 @@ import java.util.stream.Collectors;
 public class SensitiveWordCache {
     private static List<String> sensitiveWords = new ArrayList<>();
 
-    @Autowired
     private WmSensitiveMapper wmSensitiveMapper;
+    @Autowired
+    public void setWmSensitiveMapper(WmSensitiveMapper wmSensitiveMapper) {
+        this.wmSensitiveMapper = wmSensitiveMapper;
+    }
 
     // 应用启动后立即执行一次，之后每小时更新一次
     @PostConstruct

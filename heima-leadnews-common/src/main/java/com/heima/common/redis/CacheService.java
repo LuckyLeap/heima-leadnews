@@ -17,8 +17,12 @@ import java.util.concurrent.TimeUnit;
 @Getter
 @Component
 public class CacheService {
-    @Autowired
+
     private StringRedisTemplate stringRedisTemplate;
+    @Autowired
+    public void setStringRedisTemplate(StringRedisTemplate stringRedisTemplate) {
+        this.stringRedisTemplate = stringRedisTemplate;
+    }
 
     // key相关操作
 
