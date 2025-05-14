@@ -1,12 +1,10 @@
 package com.heima.search.service.impl;
 
 import com.alibaba.cloud.commons.lang.StringUtils;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.heima.model.common.dtos.ResponseResult;
 import com.heima.model.common.enums.AppHttpCodeEnum;
 import com.heima.model.search.dtos.UserSearchDto;
 import com.heima.search.pojos.ApAssociateWords;
-import com.heima.search.mapper.ApAssociateWordsMapper;
 import com.heima.search.service.ApAssociateWordsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +20,7 @@ import java.util.List;
  */
 @Slf4j
 @Service
-public class ApAssociateWordsServiceImpl extends ServiceImpl<ApAssociateWordsMapper, ApAssociateWords> implements ApAssociateWordsService {
+public class ApAssociateWordsServiceImpl implements ApAssociateWordsService {
 
     private MongoTemplate mongoTemplate;
     @Autowired

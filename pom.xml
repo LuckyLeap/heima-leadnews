@@ -22,7 +22,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.1.5</version>
+        <version>2.6.14</version>
     </parent>
     <properties>
         <!-- 项目源码及编译输出的编码 -->
@@ -32,7 +32,7 @@
         <maven.compiler.target>17</maven.compiler.target>
 
         <!-- 依赖包版本管理 -->
-        <spring.boot.version>2.7.12</spring.boot.version>
+        <spring.boot.version>2.6.14</spring.boot.version>
         <commons.io.version>2.13.0</commons.io.version>
         <commons.codec.version>1.17.2</commons.codec.version>
         <lombok.version>1.18.30</lombok.version>
@@ -47,7 +47,7 @@
         <fastjson.version>2.0.43</fastjson.version>
         <fastjson.dataformat.version>2.13.3</fastjson.dataformat.version>
         <spring.boot.admin.version>2.5.4</spring.boot.admin.version>
-        <spring.cloud.version>2021.0.3</spring.cloud.version>
+        <spring.cloud.version>2021.0.8</spring.cloud.version>
         <curator.version>5.4.0</curator.version>
         <hanlp.version>portable-1.8.6</hanlp.version>
         <fastdfs.version>1.27.2</fastdfs.version>
@@ -130,6 +130,7 @@
                 <artifactId>mysql-connector-java</artifactId>
                 <version>${mysql.version}</version>
             </dependency>
+            <!-- Mybatis -->
             <dependency>
                 <groupId>org.mybatis</groupId>
                 <artifactId>mybatis</artifactId>

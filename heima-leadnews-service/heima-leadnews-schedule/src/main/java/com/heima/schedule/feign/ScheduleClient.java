@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
-public class ScheduleClient  implements IScheduleClient {
+public class ScheduleClient implements IScheduleClient {
 
     @Autowired
     private TaskService taskService;

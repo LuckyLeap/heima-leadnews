@@ -33,4 +33,5 @@ public interface IScheduleClient {
      */
     @GetMapping("/api/v1/task/poll/{type}/{priority}")
     ResponseResult<Object> poll(@PathVariable("type") int type, @PathVariable("priority")  int priority);
+
 }

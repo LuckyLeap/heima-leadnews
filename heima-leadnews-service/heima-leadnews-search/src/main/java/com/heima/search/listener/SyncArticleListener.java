@@ -9,6 +9,7 @@ import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.xcontent.XContentType;
+import org.springframework.amqp.rabbit.annotation.Queue;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -25,7 +26,12 @@ public class SyncArticleListener {
         this.restHighLevelClient = restHighLevelClient;
     }
 
-    @RabbitListener(queues = ArticleConstants.ARTICLE_ES_SYNC_QUEUE)
+    @RabbitListener(
+            queuesToDeclare = @Queue(
+                    name = ArticleConstants.ARTICLE_ES_SYNC_QUEUE,
+                    durable = "true"  // 持久化配置
+            )
+    )
     public void onMessage(String message){
         if(StringUtils.isNotBlank(message)){
 

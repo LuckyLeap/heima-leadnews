@@ -21,4 +21,5 @@ public class WmChannelServiceImpl extends ServiceImpl<WmChannelMapper, WmChannel
     public ResponseResult<Object> findAll() {
         return ResponseResult.okResult(list());
     }
+
 }

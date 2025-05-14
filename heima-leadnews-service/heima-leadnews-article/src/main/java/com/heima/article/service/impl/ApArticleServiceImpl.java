@@ -7,6 +7,7 @@ import com.heima.article.mapper.ApArticleConfigMapper;
 import com.heima.article.mapper.ApArticleContentMapper;
 import com.heima.article.mapper.ApArticleMapper;
 import com.heima.article.service.ApArticleService;
+import com.heima.article.service.ArticleFreemarkerService;
 import com.heima.model.article.dtos.ArticleDto;
 import com.heima.model.article.dtos.ArticleHomeDto;
 import com.heima.model.article.pojos.ApArticle;
@@ -18,6 +19,7 @@ import com.heima.model.common.enums.AppHttpCodeEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,16 +34,17 @@ public class ApArticleServiceImpl  extends ServiceImpl<ApArticleMapper, ApArticl
     // 单页最大加载的数字
     private final static short MAX_PAGE_SIZE = 50;
 
-    private final ApArticleMapper apArticleMapper;
-    private final ApArticleConfigMapper apArticleConfigMapper;
-    private final ApArticleContentMapper apArticleContentMapper;
-    private final ArticleFreemarkerServiceImpl articleFreemarkerService;
     @Autowired
-    public ApArticleServiceImpl(ApArticleMapper apArticleMapper, ApArticleConfigMapper apArticleConfigMapper,
-                                ApArticleContentMapper apArticleContentMapper, ArticleFreemarkerServiceImpl articleFreemarkerService) {
-        this.apArticleMapper = apArticleMapper;
-        this.apArticleConfigMapper = apArticleConfigMapper;
-        this.apArticleContentMapper = apArticleContentMapper;
+    private ApArticleMapper apArticleMapper;
+    @Autowired
+    private ApArticleConfigMapper apArticleConfigMapper;
+    @Autowired
+    private ApArticleContentMapper apArticleContentMapper;
+
+    private final ArticleFreemarkerService articleFreemarkerService;
+    @Autowired
+    @Lazy // 延迟加载，打破循环
+    public ApArticleServiceImpl(ArticleFreemarkerService articleFreemarkerService) {
         this.articleFreemarkerService = articleFreemarkerService;
     }
 

@@ -1,6 +1,5 @@
 package com.heima.file.service.impl;
 
-import com.heima.file.config.MinIOConfig;
 import com.heima.file.config.MinIOConfigProperties;
 import com.heima.file.service.FileStorageService;
 import io.minio.GetObjectArgs;
@@ -8,10 +7,6 @@ import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
 import io.minio.RemoveObjectArgs;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Import;
-import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -20,14 +15,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Slf4j
-@EnableConfigurationProperties(MinIOConfigProperties.class)
-@Import(MinIOConfig.class)
-@Service
 public class MinIOFileStorageServiceImpl implements FileStorageService {
 
     private final MinioClient minioClient;
     private final MinIOConfigProperties minIOConfigProperties;
-    @Autowired
+
+    // 构造函数注入依赖
     public MinIOFileStorageServiceImpl(MinioClient minioClient, MinIOConfigProperties minIOConfigProperties) {
         this.minioClient = minioClient;
         this.minIOConfigProperties = minIOConfigProperties;
@@ -99,7 +92,6 @@ public class MinIOFileStorageServiceImpl implements FileStorageService {
                     filePath;
         }catch (Exception ex){
             log.error("minio put file error.",ex);
-            ex.printStackTrace();
             throw new RuntimeException("上传文件失败");
         }
     }
@@ -120,7 +112,6 @@ public class MinIOFileStorageServiceImpl implements FileStorageService {
             minioClient.removeObject(removeObjectArgs);
         } catch (Exception e) {
             log.error("minio remove file error.  pathUrl:{}",pathUrl);
-            e.printStackTrace();
         }
     }
 
@@ -139,8 +130,7 @@ public class MinIOFileStorageServiceImpl implements FileStorageService {
         try {
             inputStream = minioClient.getObject(GetObjectArgs.builder().bucket(minIOConfigProperties.getBucket()).object(filePath).build());
         } catch (Exception e) {
-            log.error("minio down file error.  pathUrl:{}",pathUrl);
-            e.printStackTrace();
+            log.error("minio down file error. pathUrl: {}",pathUrl);
         }
 
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();

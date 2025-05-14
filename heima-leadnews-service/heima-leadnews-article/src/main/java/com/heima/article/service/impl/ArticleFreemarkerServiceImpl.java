@@ -39,10 +39,12 @@ public class ArticleFreemarkerServiceImpl implements ArticleFreemarkerService {
     private Configuration configuration;
 
     @Autowired
-    private ApArticleService apArticleService;
-
-    @Autowired
     private FileStorageService fileStorageService;
+
+    private final ApArticleService apArticleService;
+    public ArticleFreemarkerServiceImpl(ApArticleService apArticleService) {
+        this.apArticleService = apArticleService;
+    }
 
     /**
      * 生成静态文件上传到minIO中

@@ -5,8 +5,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
-@SpringBootApplication
-@EnableDiscoveryClient
+@SpringBootApplication(scanBasePackages = "com.heima")
+@EnableDiscoveryClient // 启用注册中心
 @MapperScan("com.heima.user.mapper")
 public class UserApplication {
 

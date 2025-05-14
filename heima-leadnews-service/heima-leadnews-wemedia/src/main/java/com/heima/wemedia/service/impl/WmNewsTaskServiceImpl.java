@@ -21,11 +21,11 @@ import java.util.Date;
 @Slf4j
 public class WmNewsTaskServiceImpl  implements WmNewsTaskService {
 
-    private final IScheduleClient scheduleClient;
-    private final WmNewsAutoScanServiceImpl wmNewsAutoScanService;
     @Autowired
-    public WmNewsTaskServiceImpl(IScheduleClient scheduleClient, WmNewsAutoScanServiceImpl wmNewsAutoScanService) {
-        this.scheduleClient = scheduleClient;
+    private IScheduleClient scheduleClient;
+
+    private final WmNewsAutoScanServiceImpl wmNewsAutoScanService;
+    public WmNewsTaskServiceImpl(WmNewsAutoScanServiceImpl wmNewsAutoScanService) {
         this.wmNewsAutoScanService = wmNewsAutoScanService;
     }
 

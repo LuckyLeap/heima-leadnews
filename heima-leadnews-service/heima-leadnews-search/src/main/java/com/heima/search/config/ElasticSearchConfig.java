@@ -12,19 +12,19 @@ import org.springframework.context.annotation.Configuration;
 @Getter
 @Setter
 @Configuration
-@ConfigurationProperties(prefix = "elasticsearch")
+@ConfigurationProperties(prefix = "spring.elasticsearch")
 public class ElasticSearchConfig {
 
-    private String host;
+    private String hostname;
     private int port;
 
     @Bean
     public RestHighLevelClient client(){
-        System.out.println(host);
+        System.out.println(hostname);
         System.out.println(port);
         return new RestHighLevelClient(RestClient.builder(
                 new HttpHost(
-                        host,
+                        hostname,
                         port,
                         "http"
                 )
