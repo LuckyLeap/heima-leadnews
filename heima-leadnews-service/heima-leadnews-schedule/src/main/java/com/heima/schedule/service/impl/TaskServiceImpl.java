@@ -191,7 +191,7 @@ public class TaskServiceImpl implements TaskService {
     /**
      * 定时任务，将缓存中的数据刷新到数据库中
      */
-    @Scheduled(cron = "0 */1 * * * ?")
+    @Scheduled(cron = "0 */2 * * * ?")
     public void refresh(){
         String token = cacheService.tryLock("FUTURE_TASK_SYNC", 1000 * 30);
         if(StringUtils.isNotBlank(token)){
