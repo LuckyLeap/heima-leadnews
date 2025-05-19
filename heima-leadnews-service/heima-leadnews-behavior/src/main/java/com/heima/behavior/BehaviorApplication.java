@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @SpringBootApplication(scanBasePackages = "com.heima")
-@EnableDiscoveryClient
+@EnableDiscoveryClient // 开启注册中心客户端
 public class BehaviorApplication {
 
     public static void main(String[] args) {

@@ -13,4 +13,9 @@ public interface WmUserService extends IService<WmUser> {
      */
     ResponseResult<Object> login(WmLoginDto dto);
 
+    /**
+     * 根据用户名查询用户
+     */
+    WmUser findWmUserByName(String name);
+
 }

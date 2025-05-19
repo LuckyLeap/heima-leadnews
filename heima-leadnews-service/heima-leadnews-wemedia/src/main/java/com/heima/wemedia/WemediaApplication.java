@@ -12,7 +12,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @EnableAsync // 开启异步注解
 @SpringBootApplication(scanBasePackages = "com.heima")
-@EnableDiscoveryClient
+@EnableDiscoveryClient //  开启服务注册发现功能
 @EnableScheduling // 开启定时任务支持
 @MapperScan("com.heima.wemedia.mapper")
 @EnableFeignClients(

@@ -7,7 +7,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @SpringBootApplication
 @MapperScan("com.heima.admin.mapper")
-@EnableDiscoveryClient
+@EnableDiscoveryClient // 开启注册中心
 public class AdminApplication {
 
     public static void main(String[] args) {

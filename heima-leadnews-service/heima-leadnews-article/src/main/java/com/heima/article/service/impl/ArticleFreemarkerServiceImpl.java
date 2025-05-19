@@ -34,10 +34,8 @@ public class ArticleFreemarkerServiceImpl implements ArticleFreemarkerService {
 
     @Autowired
     private ApArticleContentMapper apArticleContentMapper;
-
     @Autowired
     private Configuration configuration;
-
     @Autowired
     private FileStorageService fileStorageService;
 

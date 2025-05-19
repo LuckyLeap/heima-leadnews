@@ -26,8 +26,8 @@ public class SensitiveWordCache {
     }
 
     // 应用启动后立即执行一次，之后每小时更新一次
-    @PostConstruct
-    @Scheduled(fixedRate = 3600000) // 单位：毫秒（1小时）
+    @PostConstruct // 应用启动后执行一次
+    @Scheduled(fixedRate = 3600000) // 每隔1小时执行一次
     public void refreshSensitiveWords() {
         log.info("SensitiveWordCache - refreshSensitiveWords");
         List<WmSensitive> wmSensitives = wmSensitiveMapper.selectList(

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/channel")
 public class WmchannelController {
+
     private final WmChannelService wmChannelService;
     @Autowired
     public WmchannelController(WmChannelService wmChannelService) {
@@ -20,4 +21,5 @@ public class WmchannelController {
     public ResponseResult<Object> findAll(){
         return wmChannelService.findAll();
     }
+
 }

@@ -87,8 +87,11 @@ public class TaskServiceImpl implements TaskService {
         return task;
     }
 
-    @Autowired
     private CacheService cacheService;
+    @Autowired
+    public void setCacheService(CacheService cacheService) {
+        this.cacheService = cacheService;
+    }
 
     /**
      * 把任务添加到redis中

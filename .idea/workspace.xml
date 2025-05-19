@@ -4,19 +4,24 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dec2c8e9-1746-4a8d-a9ce-822817a466b9" name="更改" comment="黑马头条项目代码[Day 7] - 修正 【解决项目中的错误】">
-      <change afterPath="$PROJECT_DIR$/heima-leadnews-model/src/main/java/com/heima/model/common/constants/BehaviorConstants.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/heima-leadnews-service/heima-leadnews-admin/src/main/resources/application.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/heima-leadnews-service/heima-leadnews-admin/src/main/resources/logback.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/heima-leadnews-service/heima-leadnews-behavior/src/main/resources/application.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+    <list default="true" id="dec2c8e9-1746-4a8d-a9ce-822817a466b9" name="更改" comment="黑马头条项目代码[Day 8-9]">
+      <change afterPath="$PROJECT_DIR$/heima-leadnews-model/src/main/java/com/heima/model/article/vos/HotArticleVo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/heima-leadnews-service/heima-leadnews-article/src/main/java/com/heima/article/service/HotArticleService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/heima-leadnews-service/heima-leadnews-article/src/main/java/com/heima/article/service/impl/HotArticleServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/heima-leadnews-service/heima-leadnews-wemedia/src/main/java/com/heima/wemedia/feign/WemediaClient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/heima-leadnews-common/src/main/resources/META-INF/spring.factories" beforeDir="false" afterPath="$PROJECT_DIR$/heima-leadnews-common/src/main/resources/META-INF/spring.factories" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/heima-leadnews-gateway/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/heima-leadnews-gateway/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/heima-leadnews-service/heima-leadnews-schedule/src/main/java/com/heima/schedule/service/impl/TaskServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/heima-leadnews-service/heima-leadnews-schedule/src/main/java/com/heima/schedule/service/impl/TaskServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/heima-leadnews-service/heima-leadnews-wemedia/src/main/java/com/heima/wemedia/service/impl/WmNewsTaskServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/heima-leadnews-service/heima-leadnews-wemedia/src/main/java/com/heima/wemedia/service/impl/WmNewsTaskServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/heima-leadnews-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/heima-leadnews-service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/heima-leadnews-feign-api/src/main/java/com/heima/apis/wemedia/IWemediaClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/heima-leadnews-feign-api/src/main/java/com/heima/apis/wemedia/IWemediaClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/heima-leadnews-service/heima-leadnews-admin/src/main/java/com/heima/admin/AdminApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/heima-leadnews-service/heima-leadnews-admin/src/main/java/com/heima/admin/AdminApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/heima-leadnews-service/heima-leadnews-article/src/main/java/com/heima/article/ArticleApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/heima-leadnews-service/heima-leadnews-article/src/main/java/com/heima/article/ArticleApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/heima-leadnews-service/heima-leadnews-article/src/main/java/com/heima/article/mapper/ApArticleMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/heima-leadnews-service/heima-leadnews-article/src/main/java/com/heima/article/mapper/ApArticleMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/heima-leadnews-service/heima-leadnews-article/src/main/java/com/heima/article/service/impl/ApArticleConfigServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/heima-leadnews-service/heima-leadnews-article/src/main/java/com/heima/article/service/impl/ApArticleConfigServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/heima-leadnews-service/heima-leadnews-article/src/main/java/com/heima/article/service/impl/ArticleFreemarkerServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/heima-leadnews-service/heima-leadnews-article/src/main/java/com/heima/article/service/impl/ArticleFreemarkerServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/heima-leadnews-service/heima-leadnews-article/src/main/resources/mapper/ApArticleMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/heima-leadnews-service/heima-leadnews-article/src/main/resources/mapper/ApArticleMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/heima-leadnews-service/heima-leadnews-behavior/src/main/java/com/heima/behavior/BehaviorApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/heima-leadnews-service/heima-leadnews-behavior/src/main/java/com/heima/behavior/BehaviorApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/heima-leadnews-service/heima-leadnews-wemedia/src/main/java/com/heima/wemedia/controller/v1/WmchannelController.java" beforeDir="false" afterPath="$PROJECT_DIR$/heima-leadnews-service/heima-leadnews-wemedia/src/main/java/com/heima/wemedia/controller/v1/WmchannelController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/heima-leadnews-service/heima-leadnews-wemedia/src/main/java/com/heima/wemedia/service/WmChannelService.java" beforeDir="false" afterPath="$PROJECT_DIR$/heima-leadnews-service/heima-leadnews-wemedia/src/main/java/com/heima/wemedia/service/WmChannelService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/heima-leadnews-service/heima-leadnews-wemedia/src/main/java/com/heima/wemedia/service/WmUserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/heima-leadnews-service/heima-leadnews-wemedia/src/main/java/com/heima/wemedia/service/WmUserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/heima-leadnews-service/heima-leadnews-wemedia/src/main/java/com/heima/wemedia/service/impl/WmUserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/heima-leadnews-service/heima-leadnews-wemedia/src/main/java/com/heima/wemedia/service/impl/WmUserServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,59 +78,59 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
-    "ConfigurationTypeDashboardGroupingRule": "false",
-    "Maven.heima-leadnews [clean,install,-U].executor": "Run",
-    "Maven.heima-leadnews [clean].executor": "Run",
-    "Maven.heima-leadnews [compile].executor": "Run",
-    "Maven.heima-leadnews [dependency:tree,|,grep...].executor": "Run",
-    "Maven.heima-leadnews [dependency:tree...].executor": "Run",
-    "Maven.heima-leadnews [dependency:tree].executor": "Run",
-    "Maven.heima-leadnews [install:install-file...].executor": "Run",
-    "Maven.heima-leadnews [validate].executor": "Run",
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "Spring Boot.AdminApplication.executor": "Debug",
-    "Spring Boot.AdminGatewayApplication.executor": "Debug",
-    "Spring Boot.AppGatewayApplication.executor": "Debug",
-    "Spring Boot.ArticleApplication.executor": "Debug",
-    "Spring Boot.BehaviorApplication.executor": "Debug",
-    "Spring Boot.ScheduleApplication.executor": "Debug",
-    "Spring Boot.SearchApplication.executor": "Debug",
-    "Spring Boot.UserApplication.executor": "Debug",
-    "Spring Boot.WemediaApplication.executor": "Debug",
-    "Spring Boot.WemediaGatewayAplication.executor": "Debug",
-    "StatusDashboardGroupingRule": "true",
-    "git-widget-placeholder": "master",
-    "jdk.selected.JAVA_MODULE": "17",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/software/JavaWeb/heima-leadnews/heima-leadnews-service/heima-leadnews-admin/src/main/resources",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "模块",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "run.configurations.included.in.services": "true",
-    "settings.editor.selected.configurable": "File.Encoding",
-    "vue.rearranger.settings.migration": "true",
-    "应用程序.SensitiveWordUtil.executor": "Debug"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
+    &quot;ConfigurationTypeDashboardGroupingRule&quot;: &quot;false&quot;,
+    &quot;Maven.heima-leadnews [clean,install,-U].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.heima-leadnews [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.heima-leadnews [compile].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.heima-leadnews [dependency:tree,|,grep...].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.heima-leadnews [dependency:tree...].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.heima-leadnews [dependency:tree].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.heima-leadnews [install:install-file...].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.heima-leadnews [validate].executor&quot;: &quot;Run&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;Spring Boot.AdminApplication.executor&quot;: &quot;Debug&quot;,
+    &quot;Spring Boot.AdminGatewayApplication.executor&quot;: &quot;Debug&quot;,
+    &quot;Spring Boot.AppGatewayApplication.executor&quot;: &quot;Debug&quot;,
+    &quot;Spring Boot.ArticleApplication.executor&quot;: &quot;Debug&quot;,
+    &quot;Spring Boot.BehaviorApplication.executor&quot;: &quot;Debug&quot;,
+    &quot;Spring Boot.ScheduleApplication.executor&quot;: &quot;Debug&quot;,
+    &quot;Spring Boot.SearchApplication.executor&quot;: &quot;Debug&quot;,
+    &quot;Spring Boot.UserApplication.executor&quot;: &quot;Debug&quot;,
+    &quot;Spring Boot.WemediaApplication.executor&quot;: &quot;Debug&quot;,
+    &quot;Spring Boot.WemediaGatewayAplication.executor&quot;: &quot;Debug&quot;,
+    &quot;StatusDashboardGroupingRule&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;17&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/software/JavaWeb/heima-leadnews/heima-leadnews-service/heima-leadnews-admin/src/main/resources&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;模块&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;run.configurations.included.in.services&quot;: &quot;true&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;File.Encoding&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;,
+    &quot;应用程序.SensitiveWordUtil.executor&quot;: &quot;Debug&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mysql",
-      "redis",
-      "mongo"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;,
+      &quot;redis&quot;,
+      &quot;mongo&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="ReactorSettings">
     <option name="notificationShown" value="true" />
   </component>
@@ -138,11 +143,11 @@
       <recent name="D:\software\JavaWeb\heima-leadnews\heima-leadnews-service\heima-leadnews-article\src\main\resources" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\software\JavaWeb\heima-leadnews\heima-leadnews-feign-api\src\main\java\com\heima\apis" />
       <recent name="D:\software\JavaWeb\heima-leadnews\heima-leadnews-common\src\main\java\com\heima\common" />
       <recent name="D:\software\JavaWeb\heima-leadnews\heima-leadnews-model\src\main\java\com\heima\model\common\constants" />
       <recent name="D:\software\JavaWeb\heima-leadnews\heima-leadnews-service" />
       <recent name="D:\software\JavaWeb\heima-leadnews\heima-leadnews-model\src\main\java\com\heima\model\common" />
-      <recent name="D:\software\JavaWeb\heima-leadnews\heima-leadnews-model\src\main\java\com\heima\model" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.heima.search.config" />
@@ -335,7 +340,11 @@
       <workItem from="1747231843386" duration="2820000" />
       <workItem from="1747320056248" duration="199000" />
       <workItem from="1747409283295" duration="138000" />
-      <workItem from="1747573479807" duration="6932000" />
+      <workItem from="1747573479807" duration="7392000" />
+      <workItem from="1747582139597" duration="35000" />
+      <workItem from="1747582195772" duration="537000" />
+      <workItem from="1747584020104" duration="2000" />
+      <workItem from="1747657610297" duration="5251000" />
     </task>
     <task id="LOCAL-00001" summary="修正">
       <option name="closed" value="true" />
@@ -441,7 +450,15 @@
       <option name="project" value="LOCAL" />
       <updated>1747234657876</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="黑马头条项目代码[Day 8-9]">
+      <option name="closed" value="true" />
+      <created>1747581916638</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1747581916638</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -482,7 +499,8 @@
     <MESSAGE value="黑马头条项目代码[Day 6]&#10;    使用RabbitMQ 替换 Kafka" />
     <MESSAGE value="黑马头条项目代码[Day 7]" />
     <MESSAGE value="黑马头条项目代码[Day 7] - 修正 【解决项目中的错误】" />
-    <option name="LAST_COMMIT_MESSAGE" value="黑马头条项目代码[Day 7] - 修正 【解决项目中的错误】" />
+    <MESSAGE value="黑马头条项目代码[Day 8-9]" />
+    <option name="LAST_COMMIT_MESSAGE" value="黑马头条项目代码[Day 8-9]" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

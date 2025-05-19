@@ -15,7 +15,6 @@ import java.util.Map;
 @Slf4j
 @Transactional
 public class ApArticleConfigServiceImpl extends ServiceImpl<ApArticleConfigMapper, ApArticleConfig> implements ApArticleConfigService {
-
     /**
      * 修改文章配置
      */

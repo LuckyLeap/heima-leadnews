@@ -22,16 +22,16 @@ public class ArticleHomeController {
 
     @PostMapping("/load")
     public ResponseResult<Object> load(@RequestBody ArticleHomeDto dto) {
-        return apArticleService.load(ArticleConstants.LOADTYPE_LOAD_MORE,dto);
+        return apArticleService.loadArticleList(dto, ArticleConstants.LOADTYPE_LOAD_MORE, true);
     }
 
     @PostMapping("/loadmore")
     public ResponseResult<Object> loadMore(@RequestBody ArticleHomeDto dto) {
-        return apArticleService.load(ArticleConstants.LOADTYPE_LOAD_MORE,dto);
+        return apArticleService.load(ArticleConstants.LOADTYPE_LOAD_MORE, dto);
     }
 
     @PostMapping("/loadnew")
     public ResponseResult<Object> loadNew(@RequestBody ArticleHomeDto dto) {
-        return apArticleService.load(ArticleConstants.LOADTYPE_LOAD_NEW,dto);
+        return apArticleService.load(ArticleConstants.LOADTYPE_LOAD_NEW, dto);
     }
 }
