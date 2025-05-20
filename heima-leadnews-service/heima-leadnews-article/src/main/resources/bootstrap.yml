@@ -11,3 +11,5 @@ spring:
   config:
     import:
       - nacos:leadnews-article.yaml
+  freemarker:
+    template-loader-path: classpath:\templates

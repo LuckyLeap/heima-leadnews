@@ -49,11 +49,4 @@ public class WmUserServiceImpl extends ServiceImpl<WmUserMapper, WmUser> impleme
             return ResponseResult.errorResult(AppHttpCodeEnum.LOGIN_PASSWORD_ERROR);
         }
     }
-
-    /**
-     * 根据用户名查询用户
-     */
-    public WmUser findWmUserByName(String name){
-        return getOne(Wrappers.<WmUser>lambdaQuery().eq(WmUser::getName, name));
-    }
 }

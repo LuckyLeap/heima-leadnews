@@ -5,11 +5,14 @@ import com.heima.behavior.service.ApLikesBehaviorService;
 import com.heima.common.redis.CacheService;
 import com.heima.model.behavior.dtos.LikesBehaviorDto;
 import com.heima.model.common.constants.BehaviorConstants;
+import com.heima.model.common.constants.HotArticleConstants;
 import com.heima.model.common.dtos.ResponseResult;
 import com.heima.model.common.enums.AppHttpCodeEnum;
+import com.heima.model.mess.UpdateArticleMess;
 import com.heima.model.user.pojos.ApUser;
 import com.heima.utils.thread.AppThreadLocalUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,9 +28,15 @@ public class ApLikesBehaviorServiceImpl implements ApLikesBehaviorService {
         this.cacheService = cacheService;
     }
 
+    private RabbitTemplate rabbitTemplate;
+    @Autowired
+    public void setRabbitTemplate(RabbitTemplate rabbitTemplate) {
+        this.rabbitTemplate = rabbitTemplate;
+    }
+
+
     @Override
     public ResponseResult<Object> like(LikesBehaviorDto dto) {
-
         //1.检查参数
         if (dto == null || dto.getArticleId() == null || checkParam(dto)) {
             return ResponseResult.errorResult(AppHttpCodeEnum.PARAM_INVALID);
@@ -39,6 +48,10 @@ public class ApLikesBehaviorServiceImpl implements ApLikesBehaviorService {
             return ResponseResult.errorResult(AppHttpCodeEnum.NEED_LOGIN);
         }
 
+        UpdateArticleMess mess = new UpdateArticleMess();
+        mess.setArticleId(dto.getArticleId());
+        mess.setType(UpdateArticleMess.UpdateArticleType.LIKES);
+
         //3.点赞  保存数据
         if (dto.getOperation() == 0) {
             Object obj = cacheService.hGet(BehaviorConstants.LIKE_BEHAVIOR + dto.getArticleId().toString(), user.getId().toString());
@@ -48,11 +61,16 @@ public class ApLikesBehaviorServiceImpl implements ApLikesBehaviorService {
             // 保存当前key
             log.info("保存当前key:{} ,{}, {}", dto.getArticleId(), user.getId(), dto);
             cacheService.hPut(BehaviorConstants.LIKE_BEHAVIOR + dto.getArticleId().toString(), user.getId().toString(), JSON.toJSONString(dto));
+            mess.setAdd(1);
         } else {
             // 删除当前key
             log.info("删除当前key:{}, {}", dto.getArticleId(), user.getId());
             cacheService.hDelete(BehaviorConstants.LIKE_BEHAVIOR + dto.getArticleId().toString(), user.getId().toString());
+            mess.setAdd(-1);
         }
+
+        //发送消息，数据聚合
+        rabbitTemplate.convertAndSend(HotArticleConstants.HOT_ARTICLE_SCORE_QUEUE, JSON.toJSONString(mess));
 
         return ResponseResult.okResult(AppHttpCodeEnum.SUCCESS);
     }

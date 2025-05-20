@@ -1,7 +1,9 @@
 package com.heima.wemedia.feign;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.heima.apis.wemedia.IWemediaClient;
 import com.heima.model.common.dtos.ResponseResult;
+import com.heima.model.common.enums.AppHttpCodeEnum;
 import com.heima.model.wemedia.pojos.WmUser;
 import com.heima.wemedia.service.WmChannelService;
 import com.heima.wemedia.service.WmUserService;
@@ -19,10 +21,17 @@ public class WemediaClient implements IWemediaClient {
         this.wmUserService = wmUserService;
     }
 
-    @GetMapping("/api/v1/user/findByName/{name}")
     @Override
-    public WmUser findWmUserByName(@PathVariable("name") String name){
-        return wmUserService.findWmUserByName(name);
+    @GetMapping("/api/v1/user/findByName/{name}")
+    public WmUser findWmUserByName(@PathVariable("name") String name) {
+        return wmUserService.getOne(Wrappers.<WmUser>lambdaQuery().eq(WmUser::getName, name));
+    }
+
+    @Override
+    @PostMapping("/api/v1/wm_user/save")
+    public ResponseResult<Object> saveWmUser(@RequestBody WmUser wmUser) {
+        wmUserService.save(wmUser);
+        return ResponseResult.okResult(AppHttpCodeEnum.SUCCESS);
     }
 
     @GetMapping("/api/v1/channel/list")

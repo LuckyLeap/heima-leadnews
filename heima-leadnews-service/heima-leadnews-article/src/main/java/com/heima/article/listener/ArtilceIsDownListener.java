@@ -15,15 +15,18 @@ import java.util.Map;
 @Slf4j
 public class ArtilceIsDownListener {
 
-    @Autowired
     private ApArticleConfigService apArticleConfigService;
+    @Autowired
+    public void setApArticleConfigService(ApArticleConfigService apArticleConfigService) {
+        this.apArticleConfigService = apArticleConfigService;
+    }
 
     @RabbitListener(queues = WmNewsMessageConstants.WM_NEWS_UP_OR_DOWN_QUEUE)
     public void onMessage(String message) {
         if (StringUtils.isNotBlank(message)) {
             Map map = JSON.parseObject(message, Map.class);
             apArticleConfigService.updateByMap(map);
-            log.info("article端文章配置修改，articleId={}", map.get("articleId"));
+            log.info("article端文章配置修改，articleId = {}", map.get("articleId"));
         }
     }
 }

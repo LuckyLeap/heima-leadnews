@@ -5,3 +5,6 @@ spring:
     database: 1
     password: root
     timeout: 10s
+rabbit:
+  hosts: 192.168.190.128:5672 # RabbitMQ地址
+  group: ${spring.application.name}

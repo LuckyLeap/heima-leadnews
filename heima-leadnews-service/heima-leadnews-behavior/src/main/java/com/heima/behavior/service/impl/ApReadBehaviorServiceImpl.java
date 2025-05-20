@@ -5,12 +5,15 @@ import com.heima.behavior.service.ApReadBehaviorService;
 import com.heima.common.redis.CacheService;
 import com.heima.model.behavior.dtos.ReadBehaviorDto;
 import com.heima.model.common.constants.BehaviorConstants;
+import com.heima.model.common.constants.HotArticleConstants;
 import com.heima.model.common.dtos.ResponseResult;
 import com.heima.model.common.enums.AppHttpCodeEnum;
+import com.heima.model.mess.UpdateArticleMess;
 import com.heima.model.user.pojos.ApUser;
 import com.heima.utils.thread.AppThreadLocalUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +28,9 @@ public class ApReadBehaviorServiceImpl implements ApReadBehaviorService {
     public void setCacheService(CacheService cacheService) {
         this.cacheService = cacheService;
     }
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
     @Override
     public ResponseResult<Object> readBehavior(ReadBehaviorDto dto) {
@@ -47,6 +53,14 @@ public class ApReadBehaviorServiceImpl implements ApReadBehaviorService {
         // 保存当前key
         log.info("保存当前key:{} {} {}", dto.getArticleId(), user.getId(), dto);
         cacheService.hPut(BehaviorConstants.READ_BEHAVIOR + dto.getArticleId().toString(), user.getId().toString(), JSON.toJSONString(dto));
+
+        //发送消息，数据聚合
+        UpdateArticleMess mess = new UpdateArticleMess();
+        mess.setArticleId(dto.getArticleId());
+        mess.setType(UpdateArticleMess.UpdateArticleType.VIEWS);
+        mess.setAdd(1);
+        rabbitTemplate.convertAndSend(HotArticleConstants.HOT_ARTICLE_SCORE_QUEUE, JSON.toJSONString(mess));
+
         return ResponseResult.okResult(AppHttpCodeEnum.SUCCESS);
     }
 }
