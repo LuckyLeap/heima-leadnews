@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/login")
 public class LoginController {
+
     private final WmUserService wmUserService;
     @Autowired
     public LoginController(WmUserService wmUserService) {
@@ -22,4 +23,5 @@ public class LoginController {
     public ResponseResult<Object> login(@RequestBody WmLoginDto dto){
         return wmUserService.login(dto);
     }
+
 }

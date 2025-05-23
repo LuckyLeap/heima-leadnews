@@ -10,4 +10,5 @@ public interface ApReadBehaviorService {
      * @param dto 阅读行为数据
      */
     ResponseResult<Object> readBehavior(ReadBehaviorDto dto);
+
 }

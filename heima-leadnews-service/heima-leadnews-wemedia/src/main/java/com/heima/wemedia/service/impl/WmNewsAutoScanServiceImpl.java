@@ -109,10 +109,15 @@ public class WmNewsAutoScanServiceImpl implements WmNewsAutoScanService {
         return flag;
     }
 
-    @Autowired
     private FileStorageService fileStorageService;
-    @Autowired
     private Tess4jClient tess4jClient;
+    private IArticleClient articleClient;
+    @Autowired
+    public void setFileStorageService(FileStorageService fileStorageService, Tess4jClient tess4jClient, IArticleClient articleClient) {
+        this.fileStorageService = fileStorageService;
+        this.tess4jClient = tess4jClient;
+        this.articleClient = articleClient;
+    }
 
     /**
      * 审核图片
@@ -164,14 +169,12 @@ public class WmNewsAutoScanServiceImpl implements WmNewsAutoScanService {
         return true;
     }
 
-    @Autowired
-    private IArticleClient articleClient;
-
     /**
      * 保存app端相关的文章数据
      * @param wmNews 自媒体文章
      */
-    private ResponseResult<Object> saveAppArticle(WmNews wmNews) {
+    @Override
+    public ResponseResult<Object> saveAppArticle(WmNews wmNews) {
         ArticleDto dto = new ArticleDto();
         //属性的拷贝
         BeanUtils.copyProperties(wmNews,dto);

@@ -23,4 +23,5 @@ public class ApReadBehaviorController {
     public ResponseResult<Object> readBehavior(@RequestBody ReadBehaviorDto dto) {
         return apReadBehaviorService.readBehavior(dto);
     }
+
 }

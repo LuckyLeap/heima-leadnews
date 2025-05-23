@@ -17,7 +17,6 @@ public class WmMaterialController {
         this.wmMaterialService = wmMaterialService;
     }
 
-
     @PostMapping("/upload_picture")
     public ResponseResult<Object> uploadPicture(MultipartFile multipartFile){
         return wmMaterialService.uploadPicture(multipartFile);
@@ -42,4 +41,5 @@ public class WmMaterialController {
     public ResponseResult<Object> cancelCollect(@PathVariable("id") Integer id){
         return wmMaterialService.cancelCollect(id);
     }
+
 }

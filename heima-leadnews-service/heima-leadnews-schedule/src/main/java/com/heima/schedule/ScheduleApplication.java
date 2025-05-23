@@ -28,4 +28,5 @@ public class ScheduleApplication {
         interceptor.addInnerInterceptor(new OptimisticLockerInnerInterceptor());
         return interceptor;
     }
+
 }

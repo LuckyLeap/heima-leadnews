@@ -1,11 +1,17 @@
 package com.heima.article.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.heima.model.article.dtos.ArticleCommentDto;
 import com.heima.model.article.dtos.ArticleDto;
 import com.heima.model.article.dtos.ArticleHomeDto;
+import com.heima.model.article.dtos.ArticleInfoDto;
 import com.heima.model.article.pojos.ApArticle;
+import com.heima.model.common.dtos.PageResponseResult;
 import com.heima.model.common.dtos.ResponseResult;
 import com.heima.model.mess.ArticleVisitStreamMess;
+import com.heima.model.wemedia.dtos.StatisticsDto;
+
+import java.util.Date;
 
 public interface ApArticleService extends IService<ApArticle> {
 
@@ -34,4 +40,26 @@ public interface ApArticleService extends IService<ApArticle> {
      * @param mess 热点文章数据
      */
     void updateScore(ArticleVisitStreamMess mess);
+
+    /**
+     * 加载文章详情 数据回显
+     * @param dto 文章详情参数
+     */
+    ResponseResult<Object> loadArticleBehavior(ArticleInfoDto dto);
+
+    /**
+     * 图文统计统计
+     */
+    ResponseResult<Object> queryLikesAndConllections(Integer wmUserId, Date beginDate, Date endDate);
+
+    /**
+     * 分页查询 图文统计
+     */
+    PageResponseResult newPage(StatisticsDto dto);
+
+    /**
+     * 查询文章评论统计
+     */
+    PageResponseResult findNewsComments(ArticleCommentDto dto);
+
 }

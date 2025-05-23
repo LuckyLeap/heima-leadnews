@@ -15,4 +15,5 @@ public interface WmNewsTaskService {
      * 消费延迟队列数据
      */
     void scanNewsByTask();
+
 }

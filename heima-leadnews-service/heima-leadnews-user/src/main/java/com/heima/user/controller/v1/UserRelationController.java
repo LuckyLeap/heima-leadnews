@@ -17,7 +17,7 @@ public class UserRelationController {
     private ApUserRelationService apUserRelationService;
   
     @PostMapping("/user_follow")
-    public ResponseResult follow(@RequestBody UserRelationDto dto){
+    public ResponseResult<Object> follow(@RequestBody UserRelationDto dto){
         return apUserRelationService.follow(dto);
     }
 }

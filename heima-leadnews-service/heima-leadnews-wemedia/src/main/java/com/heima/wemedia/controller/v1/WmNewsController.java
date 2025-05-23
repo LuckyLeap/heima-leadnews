@@ -1,6 +1,8 @@
 package com.heima.wemedia.controller.v1;
 
+import com.heima.model.common.constants.WemediaConstants;
 import com.heima.model.common.dtos.ResponseResult;
+import com.heima.model.wemedia.dtos.NewsAuthDto;
 import com.heima.model.wemedia.dtos.WmNewsDto;
 import com.heima.model.wemedia.dtos.WmNewsPageReqDto;
 import com.heima.wemedia.service.WmNewsService;
@@ -36,4 +38,30 @@ public class WmNewsController {
     public ResponseResult<Object> downOrUp(@RequestBody WmNewsDto dto){
         return  wmNewsService.downOrUp(dto);
     }
+
+    @GetMapping("/one/{id}")
+    public ResponseResult<Object> findOne(@PathVariable("id") Integer id){
+        return wmNewsService.findOne(id);
+    }
+
+    @PostMapping("/list_vo")
+    public ResponseResult<Object> findList(@RequestBody NewsAuthDto dto){
+        return wmNewsService.findList(dto);
+    }
+
+    @GetMapping("/one_vo/{id}")
+    public ResponseResult<Object> findWmNewsVo(@PathVariable("id") Integer id){
+        return wmNewsService.findWmNewsVo(id);
+    }
+
+    @PostMapping("/auth_pass")
+    public ResponseResult<Object> authPass(@RequestBody NewsAuthDto dto){
+        return wmNewsService.updateStatus(WemediaConstants.WM_NEWS_AUTH_PASS, dto);
+    }
+
+    @PostMapping("/auth_fail")
+    public ResponseResult<Object> authFail(@RequestBody NewsAuthDto dto){
+        return wmNewsService.updateStatus(WemediaConstants.WM_NEWS_AUTH_FAIL, dto);
+    }
+
 }

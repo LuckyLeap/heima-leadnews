@@ -2,7 +2,10 @@ package com.heima.article.service.impl;
 
 import com.alibaba.cloud.commons.lang.StringUtils;
 import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.heima.article.mapper.ApArticleConfigMapper;
 import com.heima.article.mapper.ApArticleContentMapper;
@@ -10,16 +13,25 @@ import com.heima.article.mapper.ApArticleMapper;
 import com.heima.article.service.ApArticleService;
 import com.heima.article.service.ArticleFreemarkerService;
 import com.heima.common.redis.CacheService;
+import com.heima.model.article.dtos.ArticleCommentDto;
 import com.heima.model.article.dtos.ArticleDto;
 import com.heima.model.article.dtos.ArticleHomeDto;
+import com.heima.model.article.dtos.ArticleInfoDto;
 import com.heima.model.article.pojos.ApArticle;
 import com.heima.model.article.pojos.ApArticleConfig;
 import com.heima.model.article.pojos.ApArticleContent;
+import com.heima.model.article.vos.ArticleCommnetVo;
 import com.heima.model.article.vos.HotArticleVo;
 import com.heima.model.common.constants.ArticleConstants;
+import com.heima.model.common.constants.BehaviorConstants;
+import com.heima.model.common.dtos.PageResponseResult;
 import com.heima.model.common.dtos.ResponseResult;
 import com.heima.model.common.enums.AppHttpCodeEnum;
 import com.heima.model.mess.ArticleVisitStreamMess;
+import com.heima.model.user.pojos.ApUser;
+import com.heima.model.wemedia.dtos.StatisticsDto;
+import com.heima.utils.common.DateUtils;
+import com.heima.utils.thread.AppThreadLocalUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +39,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @SuppressWarnings("ALL")
@@ -177,6 +187,107 @@ public class ApArticleServiceImpl  extends ServiceImpl<ApArticleMapper, ApArticl
 
         //4.替换推荐对应的热点数据
         replaceDataToRedis(apArticle, score, ArticleConstants.HOT_ARTICLE_FIRST_PAGE + ArticleConstants.DEFAULT_TAG);
+    }
+    @Override
+    public ResponseResult loadArticleBehavior(ArticleInfoDto dto) {
+        //0.检查参数
+        if (dto == null || dto.getArticleId() == null || dto.getAuthorId() == null) {
+            return ResponseResult.errorResult(AppHttpCodeEnum.PARAM_INVALID);
+        }
+
+        //{ "isfollow": true, "islike": true,"isunlike": false,"iscollection": true }
+        boolean isfollow = false, islike = false, isunlike = false, iscollection = false;
+
+        ApUser user = AppThreadLocalUtils.getUser();
+        if(user != null){
+            //喜欢行为
+            String likeBehaviorJson = (String) cacheService.hGet(BehaviorConstants.LIKE_BEHAVIOR + dto.getArticleId().toString(), user.getId().toString());
+            if(StringUtils.isNotBlank(likeBehaviorJson)){
+                islike = true;
+            }
+            //不喜欢的行为
+            String unLikeBehaviorJson = (String) cacheService.hGet(BehaviorConstants.UN_LIKE_BEHAVIOR + dto.getArticleId().toString(), user.getId().toString());
+            if(StringUtils.isNotBlank(unLikeBehaviorJson)){
+                isunlike = true;
+            }
+            //是否收藏
+            String collctionJson = (String) cacheService.hGet(BehaviorConstants.COLLECTION_BEHAVIOR+user.getId(),dto.getArticleId().toString());
+            if(StringUtils.isNotBlank(collctionJson)){
+                iscollection = true;
+            }
+
+            //是否关注
+            Double score = cacheService.zScore(BehaviorConstants.APUSER_FOLLOW_RELATION + user.getId(), dto.getAuthorId().toString());
+            System.out.println(score);
+            if(score != null){
+                isfollow = true;
+            }
+        }
+
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("isfollow", isfollow);
+        resultMap.put("islike", islike);
+        resultMap.put("isunlike", isunlike);
+        resultMap.put("iscollection", iscollection);
+
+        return ResponseResult.okResult(resultMap);
+    }
+
+    /**
+     * 图文统计统计
+     * @param wmUserId
+     * @param beginDate
+     * @param endDate
+     * @return
+     */
+    @Override
+    public ResponseResult queryLikesAndConllections(Integer wmUserId, Date beginDate, Date endDate) {
+        Map map = apArticleMapper.queryLikesAndConllections(wmUserId, beginDate, endDate);
+        return ResponseResult.okResult(map);
+    }
+
+    /**
+     * 分页查询 图文统计
+     * @param dto
+     * @return
+     */
+    @Override
+    public PageResponseResult newPage(StatisticsDto dto) {
+        //类型转换
+        Date beginDate = DateUtils.stringToDate(dto.getBeginDate());
+        Date endDate = DateUtils.stringToDate(dto.getEndDate());
+        //检查参数
+        dto.checkParam();
+        //分页查询
+        IPage page = new Page(dto.getPage(), dto.getSize());
+        LambdaQueryWrapper<ApArticle> lambdaQueryWrapper = Wrappers.<ApArticle>lambdaQuery()
+                .eq(ApArticle::getAuthorId, dto.getWmUserId())
+                .between(ApArticle::getPublishTime,beginDate, endDate)
+                .select(ApArticle::getId,ApArticle::getTitle,ApArticle::getLikes,ApArticle::getCollection,ApArticle::getComment,ApArticle::getViews);
+
+        lambdaQueryWrapper.orderByDesc(ApArticle::getPublishTime);
+
+        page = page(page,lambdaQueryWrapper);
+
+        PageResponseResult responseResult = new PageResponseResult(dto.getPage(),dto.getSize(),(int)page.getTotal());
+        responseResult.setData(page.getRecords());
+
+        return responseResult;
+    }
+
+    /**
+     * 查询文章评论统计
+     */
+    @Override
+    public PageResponseResult findNewsComments(ArticleCommentDto dto) {
+        Integer currentPage = dto.getPage();
+        dto.setPage((dto.getPage()-1)*dto.getSize());
+        List<ArticleCommnetVo> list = apArticleMapper.findNewsComments(dto);
+        int count = apArticleMapper.findNewsCommentsCount(dto);
+
+        PageResponseResult responseResult = new PageResponseResult(currentPage,dto.getSize(),count);
+        responseResult.setData(list);
+        return responseResult;
     }
 
     /**

@@ -1,0 +1,18 @@
+server:
+  port: 51806
+spring:
+  application:
+    name: leadnews-comment
+  cloud:
+    nacos:
+      server-addr: 192.168.190.128:8848
+      config:
+        file-extension: yaml
+      discovery:
+        heartbeat-interval: 3000    # 缩短心跳间隔
+        heart-beat-timeout: 15000   # 心跳超时时间
+        namespace: public           # 显式指定命名空间
+        group: DEFAULT_GROUP        # 明确服务分组
+  config:
+    import:
+      - nacos:leadnews-comment.yaml

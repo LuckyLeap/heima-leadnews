@@ -24,13 +24,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class ApReadBehaviorServiceImpl implements ApReadBehaviorService {
 
     private CacheService cacheService;
-    @Autowired
-    public void setCacheService(CacheService cacheService) {
-        this.cacheService = cacheService;
-    }
-
-    @Autowired
     private RabbitTemplate rabbitTemplate;
+    @Autowired
+    public void setCacheService(CacheService cacheService, RabbitTemplate rabbitTemplate) {
+        this.cacheService = cacheService;
+        this.rabbitTemplate = rabbitTemplate;
+    }
 
     @Override
     public ResponseResult<Object> readBehavior(ReadBehaviorDto dto) {
